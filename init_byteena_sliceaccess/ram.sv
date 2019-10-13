@@ -10,8 +10,7 @@ module ram
     input wire [3:0] 	i_wb_sel,
     input wire 		i_wb_we,
     input wire 		i_wb_cyc,
-    output reg [31:0] 	o_wb_rdt,
-    output reg [31:0] 	memt);
+    output reg [31:0] 	o_wb_rdt);
     
    wire [3:0] 		we = {4{i_wb_we & i_wb_cyc}} & i_wb_sel;
    wire [aw-3:0] 	addr = i_wb_adr[aw-1:2];
