@@ -5,14 +5,30 @@ module counter_sva #(parameter N=8)
     input  wire 	 i_load,
     input  wire 	 i_dir,
     input  wire  [N-1:0] i_data,
-    input  wire  [N-1:0] o_result);
+    input  wire  [N-1:0] o_result,
+    input  wire          o_full,
+    input  wire          o_empty);
 
    // Default clock and reset configs
    default clocking fpv_clk @(posedge i_clk); endclocking
    default disable iff (!i_rstn);
 
-   /* The counter underflows if o_result is 0
-      and i_dir is 0 (decrement) */
+   // Sequences
+   /* The o_done output is asserted when counter is full.
+      This sequence is to avoid large and fixed times to define
+      a property for o_done. Also, to disable i_en so I can
+      mantain old counter value in next clock tick. */
+   sequence wait_for_full_asserted;
+      (i_en && i_dir && !o_full)[*] ##1 (o_full && !i_en);
+   endsequence // wait_for_full_asserted
+
+   sequence wait_for_empty_asserted;
+      (i_en &&!i_dir && !o_empty)[*] ##1 (o_empty && !i_en);
+   endsequence // wait_for_empty_asserted
+   
+   // Properties
+   /* The counter underflows if o_result is 0                                                                                                        
+    and i_dir is 0 (decrement) */
    property underflow_counter;
       (i_en && !i_load && !i_dir && o_result == {N{1'b0}} |-> ##1 o_result == {N{1'b1}});
    endproperty // underflow_counter
@@ -44,18 +60,24 @@ module counter_sva #(parameter N=8)
    /* Counter can reach its max value if i_en and i_dir are set.
       Since I cannot use s_eventually, and exact and large time delays
       are expensive in FPV, an infinite delay until o_results becomes full
-      does the job. But, using weak operation in assert is dangerous */
+      does the job */
    property counter_reach_max;
-      (i_en && i_dir && o_result == {N{1'b0}} |-> ##[1:$] o_result == {N{1'b1}});
+      (o_result == {N{1'b0}} and wait_for_full_asserted |-> ##1 o_result == {N{1'b1}});
    endproperty // counter_reach_max
    a_counter_reach_max: assert property (counter_reach_max);
    
    // Same as counter_reach_max, but decreasing value
    property counter_reach_min;
-      (i_en && !i_dir && o_result == {N{1'b1}} |-> ##[1:$] o_result == {N{1'b0}});
+      (o_result == {N{1'b1}} and wait_for_empty_asserted |-> ##1 o_result == {N{1'b0}});
    endproperty // counter_reach_min
    a_counter_reach_min: assert property (counter_reach_min);
-   
+
+   /* A special note on properties counter_reach_max and counter reach min:
+      We're not taking into account if i_load and i_data are asserted at any time,
+      during this process. Therefore, a bounded check will fail for that specific case.
+      We could modify the sequences wait_for_full_asserted and wait_for_empty_asserted,
+      to deassert both i_load and i_data. Then, we could create two cover points to 
+      cover the cases I've just mentioned. */
 endmodule // counter
 `default_nettype wire
 
