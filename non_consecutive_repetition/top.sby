@@ -1,0 +1,12 @@
+[options]
+mode prove
+
+[engines]
+smtbmc
+
+[script]
+read -sv top.sv
+prep -top top
+
+[files]
+top.sv
