@@ -1,0 +1,5 @@
+# Temporary encrypted RVV clone relay
+
+This file contains only a short-lived URL to an AES-256/GPG-encrypted archive. No source code or decryption key is present here.
+
+[Download encrypted archive](https://release-assets.githubusercontent.com/github-production-release-asset/1330112647/adc81f77-899c-4067-955f-243867760eb1?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-08-11T21%3A10%3A25Z&rscd=attachment%3B+filename%3Deducational-rvv-full-clone.tar.gz.gpg&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-08-11T20%3A10%3A20Z&ske=2026-08-11T21%3A10%3A25Z&sks=b&skv=2018-11-09&sig=%2FkMfVfaaELqjUfOot6aiUSrg1pnb%2FiOOg0qjFIDluEM%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc4NjQ4MTQyOSwibmJmIjoxNzg2NDc5NjI5LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.LAGcPmcWDc0nbsZz3aleSD7I0dYuS8njh_dE92NSmQc&response-content-disposition=attachment%3B%20filename%3Deducational-rvv-full-clone.tar.gz.gpg&response-content-type=application%2Foctet-stream)
