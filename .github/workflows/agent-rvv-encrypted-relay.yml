@@ -28,8 +28,10 @@ jobs:
         run: |
           set -euo pipefail
           tag='agent-rvv-relay-31532399980'
-          gh release delete "$tag" --cleanup-tag -y 2>/dev/null || true
+          gh release delete "$tag" \
+            --repo "$GITHUB_REPOSITORY" --cleanup-tag -y 2>/dev/null || true
           gh release create "$tag" \
             "$RUNNER_TEMP/educational-rvv-full-clone.tar.gz.gpg#educational-rvv-full-clone.tar.gz.gpg" \
+            --repo "$GITHUB_REPOSITORY" \
             --title 'Temporary encrypted RVV clone relay' \
             --notes 'Ciphertext only. The decryption key is not present in this public repository.'
