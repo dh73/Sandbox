@@ -23,6 +23,14 @@ jobs:
           curl --fail --location --retry 3 --output "$RUNNER_TEMP/educational-rvv-full-clone.tar.gz.gpg" "$url"
           test -s "$RUNNER_TEMP/educational-rvv-full-clone.tar.gz.gpg"
 
+      - name: Upload ciphertext as connector-downloadable artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: educational-rvv-encrypted-clone
+          path: ${{ runner.temp }}/educational-rvv-full-clone.tar.gz.gpg
+          compression-level: 0
+          retention-days: 1
+
       - name: Publish temporary public ciphertext release
         shell: bash
         run: |
